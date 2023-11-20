@@ -2,12 +2,11 @@
 This project is a playground for testing and development of a blockchain-based Smart Fidget device and frontend app for it.
 
 ## Setup
-Instructions on how to get a local copy up and running. Provide step-by-step series of examples that tell you how to get a development environment running.
+Clone the repo
 
 ```bash
-git clone https://github.com/yourproject/yourproject.git
 cd frontend
-npm install
+npm install --save ethers dotenv johnny-five socket.io vite app-root-path url http express socket.io-client body-parser
 ```
 
 - Install Live Server Extension on your VS Code
@@ -27,3 +26,18 @@ npm install
     - Paste your wallet address.
     - Click on “Send me MATIC”. You will receive 0.2 MATIC.
 5. Now you can use your Metamask to test.
+
+## Arduino Setup
+1. Install Firmata Library through the explorer of Arduino IDE.
+2. Go to Examples > Firmata > StandardFirmata, open this Example and Upload it to Arduino.
+3. Assemble hardware.
+    - Connect btn to pin 2.
+    - Connect potentiometer to pin A0.
+    - Connect led to pin 11.
+
+*Note: if you bare using Arduino R4, please, update your /Users/user/Documents/Arduino/libraries/Firmata/Boards.h file to the one included in frontend folder.*
+
+# Start the project
+```bash
+node index.js
+```
