@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playground</title>
+</head>
+<body>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
+        type="application/javascript"></script>
+    <script>
+        async function setCount() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
+            const signer = provider.getSigner();
+            const daiAddress = "0x1476C8cDc336AF2921E773F0D7260FaB3430d337";
+            const daiAbi = [
+                "function setCount() public",
+                "function getCount() public returns (uint256)",
+                "event onSetCount(address _address)",
+                "event onGetCount(uint256 _count)"
+            ];
+            const daiContract = new ethers.Contract(daiAddress, daiAbi, signer);
+            const tx = await daiContract.setCount();
+            console.log(tx)
+            const reciept = await provider.waitForTransaction(tx.hash);
+            console.log(reciept)
+        }
+        async function getCount() {
+            const provider = new ethers.providers.Web3Provider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
+            const signer = provider.getSigner();
+            const daiAddress = "0x1476C8cDc336AF2921E773F0D7260FaB3430d337";
+            const daiAbi = [
+                "function setCount() public",
+                "function getCount() public returns (uint256)",
+                "event onSetCount(address _address)",
+                "event onGetCount(uint256 _count)"
+            ];
+            const daiContract = new ethers.Contract(daiAddress, daiAbi, signer);
+            const tx = await daiContract.getCount();
+            console.log(tx)
+            const reciept = await provider.waitForTransaction(tx.hash);
+            console.log(reciept)
+        }
+    </script>
+    <!-- <script src="./index.js" type="module"></script> -->
+    <button onclick="setCount()">Set Count</button>
+    <button onclick="getCount()">Get Count</button>
+</body>
+</html>
