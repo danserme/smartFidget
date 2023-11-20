@@ -1,31 +1,48 @@
-// import { ethers } from "./ethers-5.1.esm.min.js";
-import { ethers } from "ethers";
-import dotenv from "dotenv";
+import http from 'http';
+import bodyParser from 'body-parser';
+import five from 'johnny-five';
+import express from 'express';
+import { Server } from 'socket.io';
+import createBoard from './utilities/create-board.js';
+import { startClientServer } from './utilities/client-server.js';
 
-dotenv.config();
+const app = express();
+const server = http.createServer(app);
+const io = new Server(server);
+const { PORT = 3000 } = process.env;
 
-const network = "mumbai";
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
-const provider = new ethers.providers.InfuraProvider(
-    network,
-    // "6b091255f11042419e1879f36c78f1d7"
-    process.env.API_ID
-);
+await createBoard({ repl: false });
+const button = new five.Button(2)
+// const potentiometer = new five.Sensor('A0')
+// potentiometer.scale([0, 255])
+const led = new five.Led(11)
+button.on('press', () => {
+  led.fadeOut()
+})
+button.on('up', () => {
+  led.fadeIn(500)
+})
 
-const addr = process.env.ADDRESS;
-//  const addr = "0x1476C8cDc336AF2921E773F0D7260FaB3430d337";
+io.on('connection', (socket) => {
+  console.log('Socket connection established');
 
-const daiAbi = [
-    "function setCount() public",
-    "function getCount() view public returns (uint256)",
-    "event onSetCount(address _address)",
-    "event onGetCount(uint256 _count)"
-];
+  button.on('press', () => {
+    socket.emit('button', 'press')
+  })
 
-const daiContract = new ethers.Contract(addr, daiAbi, provider);
-daiContract.on("onSetCount", (addr) => {
-    console.log(addr);
+  button.on('up', () => {
+    socket.emit('button', 'up')
+  })
+
+  // potentiometer.on('change', () => {
+  //   socket.emit('potentiometer', potentiometer.value)
+  // })
+})
+
+server.listen(PORT, () => {
+  console.log('🤖 Express and Johnny-Five are up and running.');
+  startClientServer();
 });
-daiContract.on("onGetCount"), (count) => {
-    console.log(count);
-};

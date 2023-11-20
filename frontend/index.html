@@ -8,6 +8,7 @@
 <body>
     <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js"
         type="application/javascript"></script>
+    <script type="module" src="client.js"></script>
     <script>
         async function setCount() {
             const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -47,5 +48,8 @@
     <!-- <script src="./index.js" type="module"></script> -->
     <button onclick="setCount()">Set Count</button>
     <button onclick="getCount()">Get Count</button>
+    <p id="button-status">
+        The button is currently <span class="button-state">off</span>.
+    </p>
 </body>
 </html>
