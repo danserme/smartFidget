@@ -1,7 +1,7 @@
 # Project Name
 This project is a playground for testing and development of a blockchain-based Smart Fidget device and frontend app for it.
 
-## Setup
+## Run locally
 Clone the repo
 
 ```bash
@@ -9,8 +9,11 @@ cd frontend
 npm install --save ethers dotenv johnny-five socket.io vite app-root-path url http express socket.io-client body-parser
 ```
 
-- Install Live Server Extension on your VS Code
-- Open index.html with Live Server in browser
+In package.json replace ```"ethers": "^6.x.x",``` with ```"ethers": "^5.7.2",``` to use more stable release. If still get the ether.js related errors eg. ```providers is not defined``` try running:
+``` bash
+npm uninstall ethers
+npm i -S ethers@5.7.2
+```
 
 *Note: the browser must have a Wallet installed with a testnet Matic on balance*
 ### Wallet Setup
@@ -27,7 +30,7 @@ npm install --save ethers dotenv johnny-five socket.io vite app-root-path url ht
     - Click on “Send me MATIC”. You will receive 0.2 MATIC.
 5. Now you can use your Metamask to test.
 
-## Arduino Setup
+### Arduino Setup
 1. Install Firmata Library through the explorer of Arduino IDE.
 2. Go to Examples > Firmata > StandardFirmata, open this Example and Upload it to Arduino.
 3. Assemble hardware.
