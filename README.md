@@ -9,6 +9,12 @@ cd frontend
 npm install --save ethers dotenv johnny-five socket.io vite app-root-path url http express socket.io-client body-parser
 ```
 
+Place in .env file 2 variables:
+```
+ADDRESS="{{ CONTRACT ADDRESS }}"
+API_ID="{{ APP ID from PROVIDER}}"
+```
+
 In package.json replace ```"ethers": "^6.x.x",``` with ```"ethers": "^5.7.2",``` to use more stable release. If still get the ether.js related errors eg. ```providers is not defined``` try running:
 ``` bash
 npm uninstall ethers
